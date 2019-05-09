@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://dergarcon:Noexcuses-om90@devconnector-juswj.mongodb.net/test?retryWrites=true"
+  "mongoURI": "mongodb+srv://dergarcon:Noexcuses-om90@devconnector-juswj.mongodb.net/test?retryWrites=true",
+  "jwtSecret": "mysecrettoken"
 }

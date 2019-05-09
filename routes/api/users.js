@@ -13,12 +13,16 @@ const {
 // @route   POST api/users
 // @desc    Register user
 // @access  Public
-router.post('/', [
-        check('name', 'Name is required').not().isEmpty(),
+router.post(
+    '/',
+    [
+        check('name', 'Name is required')
+        .not()
+        .isEmpty(),
         check('email', 'Please include a valid E-Mail').isEmail(),
         check('password', 'Please enter a pw with 6 or more chars.').isLength({
             min: 6
-        }),
+        })
     ],
     async (req, res) => {
         const errors = validationResult(req)
@@ -74,11 +78,7 @@ router.post('/', [
             console.error(err.message)
             res.status(500).send('Server error')
         }
-
-
-
-
-
-    })
+    }
+)
 
 module.exports = router

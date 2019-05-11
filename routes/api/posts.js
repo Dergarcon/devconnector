@@ -180,4 +180,88 @@ router.put('/unlike/:id', auth, async (req, res) => {
     }
 })
 
+
+
+// @route   POST api/posts/comment/:id
+// @desc    Comment on a post
+// @access  Private
+router.post('/comment/:id', [auth,
+    check('text', 'Text is required').not().isEmpty()
+], async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        })
+    }
+
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+        const post = await Post.findById(req.params.id)
+
+        const newComment = {
+            text: req.body.text,
+            name: user.name,
+            avatar: user.avatar,
+            user: req.user.id
+        }
+
+        post.comments.unshift(newComment)
+        post.save()
+
+        res.json(post.comments)
+
+    } catch (error) {
+        console.error(error.message)
+        res.status(500).send('Server error')
+    }
+
+
+})
+
+
+// @route   DELETE api/posts/comment/:id
+// @desc    Delete a post (only the author of the comment (not post) can delete his own comment )
+// @access  Private
+
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+
+        const removeIndex = post.comments.map(item => item.id).indexOf(req.params.comment_id)
+
+        if (removeIndex === -1) {
+            return res.status(404).json({
+                msg: "Comment not found"
+            })
+        }
+
+        if (post.user.toString() === req.user.id) {
+            post.comments.splice(removeIndex, 1)
+            post.save()
+
+            return res.json({
+                msg: "Comment deleted by author of the post."
+            })
+        }
+
+        if (post.comments[removeIndex].user.toString() !== req.user.id) {
+            return res.status(401).json({
+                msg: "You can not delete comments of other users."
+            })
+        }
+
+        post.comments.splice(removeIndex, 1)
+        post.save()
+
+        res.json({
+            msg: "Comment deleted."
+        })
+    } catch (error) {
+        console.error(error.message)
+        res.status(500).send('Server error')
+    }
+
+})
+
 module.exports = router

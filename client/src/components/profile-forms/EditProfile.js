@@ -42,7 +42,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
             instagram: loading || !profile.instagram ? '' : profile.social.instagram,
             xing: loading || !profile.xing ? '' : profile.social.xing
         })// runs when its loading. loading is set to false AFTER all field data has been recieved from server.
-    }, [loading])
+    }, [loading, getCurrentProfile])
 
     const {
         company,

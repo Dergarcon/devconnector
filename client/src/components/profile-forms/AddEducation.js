@@ -51,7 +51,7 @@ const AddEducation = ({ addEducation, history }) => {
                     <input type="date" name="from" value={from} onChange={e => onChange(e)} />
                 </div>
                 <div class="form-group">
-                    <p><input type="checkbox" name="current" value="" checked={current} value={current} onChange={e => {
+                    <p><input type="checkbox" name="current" checked={current} value={current} onChange={e => {
                         setFormData({ ...formData, current: !current })
                         toggleDisabled(!toDateDisabled)
                     }} />{' '}Current School</p>
@@ -81,4 +81,4 @@ AddEducation.propTypes = {
     addEducation: PropTypes.func.isRequired
 }
 
-export default connect(null, { addEducation })(AddEducation)
+export default connect(null, { addEducation })(withRouter(AddEducation))

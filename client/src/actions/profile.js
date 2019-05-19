@@ -193,11 +193,7 @@ export const addEducation = (formData, history) => async dispatch => {
 // delete experience
 export const deleteExperience = (id) => async dispatch => {
     try {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
+
         const res = await axios.delete(`/api/profile/experience/${id}`)
         dispatch({
             type: UPDATE_PROFILE,
@@ -224,11 +220,6 @@ export const deleteExperience = (id) => async dispatch => {
 // delete education
 export const deleteEducation = (id) => async dispatch => {
     try {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
         const res = await axios.delete(`/api/profile/education/${id}`)
         dispatch({
             type: UPDATE_PROFILE,
@@ -256,12 +247,7 @@ export const deleteEducation = (id) => async dispatch => {
 export const deleteAccount = () => async dispatch => {
     if (window.confirm('Are you sure? This can not be undone!')) {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            const res = await axios.delete(`/api/profile/`)
+            await axios.delete(`/api/profile/`)
             dispatch({
                 type: CLEAR_PROFILE,
             })
@@ -271,8 +257,6 @@ export const deleteAccount = () => async dispatch => {
             dispatch(setAlert('Your Account has been permanently deleted.'))
 
         } catch (err) {
-            const errors = err.response.data.errors
-
             dispatch({
                 type: PROFILE_ERROR,
                 payload: { msg: err.response.statusText, status: err.response.status }

@@ -10,7 +10,7 @@ import { getProfiles } from '../../actions/profile'
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
     useEffect(() => {
         getProfiles()
-    }, [loading])
+    }, [getProfiles])
     return <Fragment>
         {loading ? <Spinner></Spinner> :
             <Fragment>

@@ -35,12 +35,12 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
             skills: loading || !profile.skills ? '' : profile.skills.join(','),
             githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
             bio: loading || !profile.bio ? '' : profile.bio,
-            twitter: loading || !profile.twitter ? '' : profile.social.twitter,
-            facebook: loading || !profile.facebook ? '' : profile.social.facebook,
-            linkedin: loading || !profile.linkedin ? '' : profile.social.linkedin,
-            youtube: loading || !profile.youtube ? '' : profile.social.youtube,
-            instagram: loading || !profile.instagram ? '' : profile.social.instagram,
-            xing: loading || !profile.xing ? '' : profile.social.xing
+            twitter: loading || !profile.social.twitter ? '' : profile.social.twitter,
+            facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
+            linkedin: loading || !profile.social.linkedin ? '' : profile.social.linkedin,
+            youtube: loading || !profile.social.youtube ? '' : profile.social.youtube,
+            instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
+            xing: loading || !profile.social.xing ? '' : profile.social.xing
         })// runs when its loading. loading is set to false AFTER all field data has been recieved from server.
     }, [loading, getCurrentProfile])
 
@@ -68,7 +68,6 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
     }
     return (
         <Fragment>
-
             <h1 className="large text-primary">
                 Create Your Profile
       </h1>
@@ -192,3 +191,4 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(EditProfile))
+

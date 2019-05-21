@@ -41,6 +41,15 @@ router.get('/me', auth, async (req, res) => {
 // @desc    Create or Update a user profile
 // @access  Private
 
+
+function addHttp(input) {
+    if (input.indexOf('://') === -1) {
+        input = `http://${input}`;
+        console.log(`new: ${input}`)
+    }
+    return input
+}
+
 router.post('/',
     [
         auth,
@@ -56,7 +65,7 @@ router.post('/',
                 errors: errors.array()
             })
         }
-        const {
+        var {
             company,
             website,
             location,
@@ -72,26 +81,27 @@ router.post('/',
             xing
         } = req.body
 
+
         // Build Profile Object
-        const profileFields = {}
+        var profileFields = {}
         profileFields.user = req.user.id
-        if (company) profileFields.company = company
-        if (website) profileFields.website = website
-        if (location) profileFields.location = location
-        if (bio) profileFields.bio = bio
-        if (status) profileFields.status = status
-        if (githubusername) profileFields.githubusername = githubusername
+        company ? profileFields.company = company : profileFields.company = ''
+        website ? profileFields.website = addHttp(website) : profileFields.website = ''
+        location ? profileFields.location = location : profileFields.location = ''
+        bio ? profileFields.bio = bio : profileFields.bio = ''
+        status ? profileFields.status = status : profileFields.status = ''
+        githubusername ? profileFields.githubusername = githubusername : profileFields.githubusername = ''
         if (skills) {
             profileFields.skills = skills.split(',').map(skill => skill.trim())
         }
         // Build social object
         profileFields.social = {}
-        if (youtube) profileFields.social.youtube = youtube
-        if (twitter) profileFields.social.twitter = twitter
-        if (facebook) profileFields.social.facebook = facebook
-        if (linkedin) profileFields.social.linkedin = linkedin
-        if (linkedin) profileFields.social.linkedin = linkedin
-        if (xing) profileFields.social.xing = xing
+        if (youtube) profileFields.social.youtube = addHttp(youtube)
+        if (twitter) profileFields.social.twitter = addHttp(twitter)
+        if (facebook) profileFields.social.facebook = addHttp(facebook)
+        if (linkedin) profileFields.social.linkedin = addHttp(linkedin)
+        if (linkedin) profileFields.social.linkedin = addHttp(linkedin)
+        if (xing) profileFields.social.xing = addHttp(xing)
 
         try {
             let profile = await Profile.findOne({
@@ -124,7 +134,7 @@ router.post('/',
     })
 
 
-// @route   POST api/profile
+// @route   GET api/profile
 // @desc    Get all profiles
 // @access  Public
 

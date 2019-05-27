@@ -221,7 +221,7 @@ router.post('/comment/:id', [auth,
 
 
 // @route   DELETE api/posts/comment/:id
-// @desc    Delete a post (only the author of the comment (not post) can delete his own comment )
+// @desc    Delete a comment (only the author of the comment (not post) can delete his own comment )
 // @access  Private
 
 router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
